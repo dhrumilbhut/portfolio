@@ -1,5 +1,11 @@
 const projects = [
   {
+    name: 'Voice-Driven AI Coding Assistant',
+    description: 'Voice Coding Assistant is an AI-powered development tool that converts natural speech into functional code using OpenAI\'s GPT models. It features a hybrid architecture with both REST API and MCP compliance, automatic project organization, real-time text-to-speech feedback, and enterprise-grade security for accessible and efficient development workflows.',
+    technologies: 'AI Agents , OpenAI API , FastAPI, Speech-to-Text, Text-to-Speech',
+    link: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale'
+  },
+  {
     name: 'Financial Content Automation System',
     description: 'Designed an autonomous multi-agent pipeline with CrewAI + LLMs to generate financial content from live news and market data. Built specialized agents for data collection, analysis, content drafting, and quality assurance, producing publication - ready outputs with minimal human input.',
     technologies: 'CrewAI , LangChain , YAML Configs, Jupyter Notebook',
