@@ -1,26 +1,32 @@
 const projects = [
   {
+    name: 'Production-Grade LLM Search Platform (RAG + MLOps)',
+    description: 'Built an end-to-end LLM-powered semantic search platform with Retrieval-Augmented Generation (RAG), automated evaluation, and metric-driven model promotion. Designed the system with production-style orchestration, experiment tracking, and governance to simulate real-world AI deployment workflows.',
+    technologies: 'Python, Airflow, MLflow, PostgreSQL, pgvector, Docker, RAG',
+    link: 'https://github.com/dhrumilbhut/LLM-search'
+  },
+  {
+    name: 'Conversational RAG System for Document Q&A',
+    description: 'Developed a conversational Retrieval-Augmented Generation (RAG) system for document-based question answering. Enabled PDF ingestion, persistent chat history, and context-aware responses to improve retrieval accuracy and user experience.',
+    technologies: 'LangChain, Hugging Face, Streamlit, ChromaDB, RAG',
+    link: 'https://github.com/dhrumilbhut/Conversational-RAG-QA-Chatbot'
+  },
+  {
     name: 'Voice-Driven AI Coding Assistant',
-    description: 'Voice Coding Assistant is an AI-powered development tool that converts natural speech into functional code using OpenAI\'s GPT models. It features a hybrid architecture with both REST API and MCP compliance, automatic project organization, real-time text-to-speech feedback, and enterprise-grade security for accessible and efficient development workflows.',
-    technologies: 'AI Agents , OpenAI API , FastAPI, Speech-to-Text, Text-to-Speech',
+    description: 'Built an AI-powered coding assistant that converts natural speech into executable code using LLMs. Designed real-time speech processing, structured project generation, and API-driven workflows to improve developer productivity and accessibility.',
+    technologies: 'OpenAI API, FastAPI, Speech-to-Text, Text-to-Speech, MCP, AI Agents',
     link: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale'
   },
   {
     name: 'Financial Content Automation System',
-    description: 'Designed an autonomous multi-agent pipeline with CrewAI + LLMs to generate financial content from live news and market data. Built specialized agents for data collection, analysis, content drafting, and quality assurance, producing publication - ready outputs with minimal human input.',
-    technologies: 'CrewAI , LangChain , YAML Configs, Jupyter Notebook',
+    description: 'Designed an autonomous multi-agent system to generate publication-ready financial content from live market data. Implemented specialized agents for data ingestion, analysis, drafting, and quality assurance with minimal human intervention.',
+    technologies: 'CrewAI, LangChain, LLMs, YAML Configs, Jupyter',
     link: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale'
   },
   {
-    name: 'Conversational RAG with PDF Uploads and Chat History',
-    description: 'Developed a Streamlit app with Hugging Face embeddings + Groq-powered Gemma2 model for semantic document Q&A. Enabled PDF upload, chat history, and context-aware responses, improving information retrieval accuracy and user experience.',
-    technologies: 'LangChain, Streamlit, Hugging Face, ChromaDB',
-    link: 'https://github.com/dhrumilbhut/Conversational-RAG-QA-Chatbot'
-  },
-  {
     name: 'Multi-Source AI Search Assistant',
-    description: 'Built a conversational assistant using LangChain that integrates Arxiv, Wikipedia, and DuckDuckGo for multisource, real-time research. Delivered comprehensive responses blending academic, encyclopedic, and web knowledge through an intuitive chat UI.',
-    technologies: 'LangChain, Streamlit, Tools (arxiv, wikipedia, duckduckgo-search)',
+    description: 'Built a conversational AI assistant that aggregates knowledge from academic, encyclopedic, and web sources into a unified search experience. Combined structured tools and LLM reasoning to deliver accurate, real-time responses through a chat-based interface.',
+    technologies: 'LangChain, Streamlit, Search APIs (Arxiv, Wikipedia, DuckDuckGo)',
     link: 'https://github.com/dhrumilbhut/Search-Engine-With-Langchain'
   },
   {

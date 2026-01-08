@@ -27,22 +27,72 @@ const Skills = () => {
   const skillCategories = [
     {
       title: 'Programming Languages',
-      skills: ['Python', 'JavaScript', 'SQL']
+      skills: ['Python', 'SQL', 'JavaScript']
     },
     {
-      title: 'Machine Learning & AI',
-      skills: ['LangChain', 'CrewAI', 'PyTorch', 'TensorFlow', 'Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib', 'NLTK', 'Streamlit',
-        'Hugging Face', 'RAG', 'Multi-agent Systems', 'Ollama']
+      title: 'Applied AI & LLM Systems',
+      skills: [
+        'Retrieval-Augmented Generation (RAG)',
+        'Semantic Search',
+        'Embeddings',
+        'Vector Search',
+        'LangChain',
+        'Hugging Face',
+        'OpenAI API',
+        'Ollama'
+      ]
     },
     {
-      title: 'Databases',
-      skills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Mongoose']
+      title: 'MLOps & ML Systems',
+      skills: [
+        'MLflow',
+        'Model Registry',
+        'Automated Model Promotion',
+        'ML Evaluation Pipelines',
+        'Metric-Driven Model Governance'
+      ]
     },
     {
-      title: 'Backend',
-      skills: ['Node.js', 'Express.js', 'REST API', 'JWT Auth']
+      title: 'Machine Learning & Data',
+      skills: [
+        'Pandas',
+        'NumPy',
+        'Scikit-learn',
+        'PyTorch',
+        'TensorFlow'
+      ]
+    },
+    {
+      title: 'Orchestration & Backend Systems',
+      skills: [
+        'Apache Airflow',
+        'Node.js',
+        'Express.js',
+        'REST APIs',
+        'JWT Authentication'
+      ]
+    },
+    {
+      title: 'Databases & Vector Stores',
+      skills: [
+        'PostgreSQL',
+        'pgvector',
+        'MongoDB',
+        'MySQL'
+      ]
+    },
+    {
+      title: 'Infrastructure & Tooling',
+      skills: [
+        'Docker',
+        'Docker Compose',
+        'Git',
+        'GitHub',
+        'Postman'
+      ]
     }
-  ];
+  ]
+
 
   return (
     <section id="skills" className="section py-16 bg-muted/30">
