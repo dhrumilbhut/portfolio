@@ -22,7 +22,8 @@ const Hero = () => {
             AI Engineer (Backend + Applied AI)
           </h2>
           <p className="text-lg mb-8 leading-relaxed animate-fade-in-delay-1 max-w-2xl">
-            Software Engineer with 2 years of backend experience, now transitioning into AI Engineering. Skilled in Python, LangChain, CrewAI, and LLM-based systems, with hands-on projects in Multi-Agent AI, RAG chatbots, and AI-powered search and Voice Assistants. Passionate about building scalable, intelligent solutions that bridge software engineering and applied AI.
+            <span className="font-semibold">Applied AI Engineer building production-grade LLM systems.</span> <br />
+            I design and ship end-to-end AI solutions that combine backend engineering, Retrieval-Augmented Generation (RAG), vector search, automated evaluation, and MLOps practices to deliver scalable, real-world impact.
             <br />
             <br />
             <span className="font-semibold">Open to new opportunities and collaborations.</span>
@@ -79,7 +80,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
