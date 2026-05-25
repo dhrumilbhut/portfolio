@@ -1,64 +1,160 @@
-const projects = [
+import { Github, ExternalLink } from 'lucide-react';
+import { useInView } from '@/hooks/useInView';
+
+type Project = {
+  name: string;
+  company?: string;
+  description: string;
+  tech: string[];
+  github?: string | null;
+  live?: string | null;
+};
+
+const projects: Project[] = [
   {
-    name: 'Production-Grade LLM Search Platform (RAG + MLOps)',
-    description: 'Built an end-to-end LLM-powered semantic search platform with Retrieval-Augmented Generation (RAG), automated evaluation, and metric-driven model promotion. Designed the system with production-style orchestration, experiment tracking, and governance to simulate real-world AI deployment workflows.',
-    technologies: 'Python, Airflow, MLflow, PostgreSQL, pgvector, Docker, RAG',
-    link: 'https://github.com/dhrumilbhut/LLM-search'
+    name: 'Netra — Influencer Management Platform',
+    company: 'Zuru Tech India',
+    description:
+      'Core backend for a centralized influencer platform. Engineered dual-layer rate limiting (API traffic + YouTube quota), BullMQ + Redis job scheduling with deduplication, and RabbitMQ consumer pipelines for automated media publishing across Instagram, TikTok, and YouTube.',
+    tech: ['Node.js', 'Express.js', 'PostgreSQL', 'BullMQ', 'Redis', 'RabbitMQ', 'SQLite', 'JWT'],
+    github: null,
+    live: null,
   },
   {
-    name: 'Conversational RAG System for Document Q&A',
-    description: 'Developed a conversational Retrieval-Augmented Generation (RAG) system for document-based question answering. Enabled PDF ingestion, persistent chat history, and context-aware responses to improve retrieval accuracy and user experience.',
-    technologies: 'LangChain, Hugging Face, Streamlit, ChromaDB, RAG',
-    link: 'https://github.com/dhrumilbhut/Conversational-RAG-QA-Chatbot'
+    name: 'URL Shortener',
+    description:
+      'Infra-heavy URL shortener with fire-and-forget analytics via RabbitMQ — redirect latency stays independent of analytics throughput, with a dead-letter queue for failures. Redis in four patterns: LRU cache, atomic counters, sliding-window rate limiting, and TTL-based JWT blocklist. Deployed on Railway with Docker Compose and GitHub Actions CI.',
+    tech: ['Node.js', 'Express.js', 'PostgreSQL', 'Redis', 'RabbitMQ', 'Docker', 'Railway', 'GitHub Actions'],
+    github: 'https://github.com/dhrumilbhut',
+    live: 'https://api-production-679b.up.railway.app/',
+  },
+  {
+    name: 'LLM Search Platform',
+    description:
+      'Production-grade RAG pipeline with Airflow-orchestrated ingestion, pgvector embeddings, and idempotent tasks with retries. MLflow model governance with metric-driven auto-promotion prevents silent regressions. Dual-server architecture serving REST and MCP-compliant JSON-RPC from a single logic layer.',
+    tech: ['Python', 'PostgreSQL', 'pgvector', 'Apache Airflow', 'MLflow', 'LangChain', 'Docker'],
+    github: 'https://github.com/dhrumilbhut/LLM-search',
+    live: null,
   },
   {
     name: 'Voice-Driven AI Coding Assistant',
-    description: 'Built an AI-powered coding assistant that converts natural speech into executable code using LLMs. Designed real-time speech processing, structured project generation, and API-driven workflows to improve developer productivity and accessibility.',
-    technologies: 'OpenAI API, FastAPI, Speech-to-Text, Text-to-Speech, MCP, AI Agents',
-    link: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale'
+    description:
+      'Converts natural speech into executable code using LLMs. Dual-server backend — REST API and MCP JSON-RPC server sharing a single logic layer, eliminating duplication. Real-time speech processing with structured project generation.',
+    tech: ['Python', 'FastAPI', 'OpenAI API', 'MCP', 'Speech-to-Text', 'Text-to-Speech'],
+    github: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale',
+    live: null,
   },
   {
-    name: 'Financial Content Automation System',
-    description: 'Designed an autonomous multi-agent system to generate publication-ready financial content from live market data. Implemented specialized agents for data ingestion, analysis, drafting, and quality assurance with minimal human intervention.',
-    technologies: 'CrewAI, LangChain, LLMs, YAML Configs, Jupyter',
-    link: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale'
+    name: 'Conversational RAG QA Chatbot',
+    description:
+      'Document Q&A system with PDF ingestion, persistent chat history, and context-aware retrieval. Maintains conversation memory for accurate multi-turn responses.',
+    tech: ['Python', 'LangChain', 'Hugging Face', 'ChromaDB', 'Streamlit'],
+    github: 'https://github.com/dhrumilbhut/Conversational-RAG-QA-Chatbot',
+    live: null,
   },
   {
-    name: 'Multi-Source AI Search Assistant',
-    description: 'Built a conversational AI assistant that aggregates knowledge from academic, encyclopedic, and web sources into a unified search experience. Combined structured tools and LLM reasoning to deliver accurate, real-time responses through a chat-based interface.',
-    technologies: 'LangChain, Streamlit, Search APIs (Arxiv, Wikipedia, DuckDuckGo)',
-    link: 'https://github.com/dhrumilbhut/Search-Engine-With-Langchain'
+    name: 'Financial Content Automation',
+    description:
+      'Autonomous multi-agent system generating publication-ready financial content from live market data. Specialized agents handle ingestion, analysis, drafting, and QA with minimal human intervention.',
+    tech: ['Python', 'CrewAI', 'LangChain', 'LLMs'],
+    github: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale',
+    live: null,
+  },
+  {
+    name: 'Multi-Source AI Search',
+    description:
+      'Conversational AI aggregating knowledge from Arxiv, Wikipedia, and DuckDuckGo into a unified experience. Combines structured tool use with LLM reasoning for accurate, real-time responses.',
+    tech: ['Python', 'LangChain', 'Streamlit', 'Arxiv API', 'Wikipedia API'],
+    github: 'https://github.com/dhrumilbhut/Search-Engine-With-Langchain',
+    live: null,
   },
   {
     name: 'League of Legends Match Predictor',
-    description: 'Developed a machine learning model to predict the outcome of League of Legends matches using historical game data. Implemented feature engineering, model training, and evaluation to achieve high accuracy.',
-    technologies: 'Python, PyTorch, Scikit-Learn, Pandas, NumPy',
-    link: 'https://github.com/dhrumilbhut/League-of-Legends-Match-Predictor'
+    description:
+      'ML model predicting match outcomes from historical game data using feature engineering, a PyTorch training pipeline, and evaluation across match statistics.',
+    tech: ['Python', 'PyTorch', 'Scikit-learn', 'Pandas', 'NumPy'],
+    github: 'https://github.com/dhrumilbhut/League-of-Legends-Match-Predictor',
+    live: null,
   },
-  {
-    name: 'Chat with SQL DB',
-    description: 'Developed a conversational agent that interacts with a SQL database to retrieve and manipulate data based on user queries. Implemented natural language processing and SQL query generation for seamless user interaction.',
-    technologies: 'Python, LangChain, SQLAlchemy, SQLite',
-    link: 'https://github.com/dhrumilbhut/Chat-with-SQL-DB'
-  }
 ];
 
-const Projects = () => {
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  // Stagger: left column (even index) reveals first, right column (odd) 90ms later per row
+  const { ref, revealStyle } = useInView((index % 2) * 90);
+
   return (
-    <section id="projects" className="section py-16 bg-secondary/30">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <h2 className="section-title">Projects</h2>
-        <p className="text-muted-foreground mb-8">A selection of my personal and professional projects</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, idx) => (
-            <div key={idx} className="p-6 rounded-lg shadow-sm bg-white/80 border border-border hover:shadow-md transition-shadow flex flex-col">
-              <h3 className="text-xl font-semibold mb-2">{project.name}</h3>
-              <p className="mb-3 text-muted-foreground">{project.description}</p>
-              <div className="mb-2 text-sm text-primary font-medium">{project.technologies}</div>
-              {project.link && (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm mt-auto">View Project</a>
-              )}
-            </div>
+    <div
+      ref={ref}
+      style={revealStyle}
+      className="group flex flex-col p-6 rounded-xl bg-card border border-border hover:border-foreground/20 transition-[border-color] duration-300"
+    >
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-medium text-[15px] leading-snug text-foreground/90 group-hover:text-foreground transition-colors">
+            {project.name}
+          </h3>
+          {project.company && (
+            <p className="text-xs text-muted-foreground/60 mt-0.5">{project.company}</p>
+          )}
+        </div>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 text-muted-foreground/50 hover:text-foreground rounded-md transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+          )}
+          {project.live && (
+            <a
+              href={project.live}
+              target={project.live !== '#' ? '_blank' : undefined}
+              rel="noopener noreferrer"
+              className="p-1.5 text-muted-foreground/50 hover:text-foreground rounded-md transition-colors"
+              aria-label="Live demo"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
+        </div>
+      </div>
+
+      <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-grow">
+        {project.description}
+      </p>
+
+      <div className="flex flex-wrap gap-1.5">
+        {project.tech.map((t) => (
+          <span
+            key={t}
+            className="text-xs px-2 py-1 rounded bg-secondary border border-border/60 text-muted-foreground"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Projects = () => {
+  const { ref, revealStyle } = useInView();
+
+  return (
+    <section id="projects" className="py-24 border-t border-border">
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={ref} style={revealStyle} className="flex items-center gap-6 mb-16">
+          <h2 className="text-xl font-semibold whitespace-nowrap">Projects</h2>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.name} project={project} index={i} />
           ))}
         </div>
       </div>

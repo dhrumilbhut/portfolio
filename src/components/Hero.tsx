@@ -1,86 +1,98 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Github, Linkedin, Mail, X } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 const Hero = () => {
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section
-      id="about"
-      className="min-h-screen pt-28 pb-16 flex flex-col justify-center relative overflow-hidden"
-    >
-      {/* Background subtle pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
-        backgroundImage: 'radial-gradient(circle at 1px 1px, black 1px, transparent 0)',
-        backgroundSize: '40px 40px'
-      }}></div>
+    <section id="about" className="min-h-screen flex flex-col justify-center pt-16">
+      <div className="max-w-6xl mx-auto px-6 w-full py-24">
 
-      <div className="container mx-auto px-4 relative z-10 max-w-5xl">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
-            Hi, I'm <span className="highlight">Dhrumil Bhut</span>
+        {/* Large name — confident and editorial */}
+        <div className="animate-fade-up mb-6">
+          <h1 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-bold tracking-tight leading-tight text-foreground whitespace-nowrap">
+            Dhrumil Bhut
           </h1>
-          <h2 className="text-2xl md:text-3xl mb-6 text-muted-foreground animate-fade-in-delay-1">
-            AI Engineer (Backend + Applied AI)
-          </h2>
-          <p className="text-lg mb-8 leading-relaxed animate-fade-in-delay-1 max-w-2xl">
-            <span className="font-semibold">Applied AI Engineer building production-grade LLM systems.</span> <br />
-            I design and ship end-to-end AI solutions that combine backend engineering, Retrieval-Augmented Generation (RAG), vector search, automated evaluation, and MLOps practices to deliver scalable, real-world impact.
-            <br />
-            <br />
-            <span className="font-semibold">Open to new opportunities and collaborations.</span>
-          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-4 mb-12 animate-fade-in-delay-2">
-            <Button
-              className="flex items-center gap-2 px-6 rounded-full text-base"
-              onClick={() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })}
-              size="lg"
-            >
-              View Experience
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 px-6 rounded-full text-base"
-              asChild
-              size="lg"
-            >
-              <a href="mailto:dhrumilbhut@gmail.com">
-                Contact Me
-                <Mail className="w-4 h-4" />
+        {/* Horizontal rule */}
+        <div className="h-px bg-border w-full mb-10 animate-fade-up-delay-1" />
+
+        {/* Two-column below the rule */}
+        <div className="grid md:grid-cols-2 gap-12 animate-fade-up-delay-2">
+          {/* Left — role + description */}
+          <div>
+            <p className="text-lg font-medium text-foreground/80 mb-4">
+              Software Engineer — Backend Systems & API Development
+            </p>
+            <p className="text-[15px] text-muted-foreground leading-relaxed max-w-md mb-8">
+              2.5+ years designing and shipping production-grade backend systems — scalable APIs,
+              distributed job pipelines, and infra-heavy services built with Node.js, PostgreSQL,
+              and AWS. Also skilled in Applied AI: RAG pipelines, multi-agent workflows, and MLOps.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-2.5 text-sm font-medium bg-foreground text-background rounded-full hover:bg-foreground/90 transition-colors"
+              >
+                View Resume ↗
               </a>
-            </Button>
+              <button
+                onClick={() => scrollTo('contact')}
+                className="px-6 py-2.5 text-sm font-medium border border-border text-muted-foreground rounded-full hover:text-foreground hover:border-foreground/30 transition-colors"
+              >
+                Get in Touch
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-6 animate-fade-in-delay-3">
-            <a
-              href="https://github.com/dhrumilbhut"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Github className="w-6 h-6" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/dhrumilbhut"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Linkedin className="w-6 h-6" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
-            <a
-              href="mailto:dhrumilbhut@gmail.com"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Mail className="w-6 h-6" />
-              <span className="sr-only">Email</span>
-            </a>
+          {/* Right — location + social */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest mb-2">Based in</p>
+              <p className="text-sm text-muted-foreground mb-8">Ahmedabad, India</p>
+
+              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest mb-2">Currently</p>
+              <p className="text-sm text-muted-foreground mb-8">
+                Software Engineer at Zuru Tech India
+              </p>
+
+              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest mb-3">Find me</p>
+              <div className="flex items-center gap-5">
+                <a
+                  href="https://github.com/dhrumilbhut"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/dhrumilbhut"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="mailto:dhrumilbhut@gmail.com"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section >
+    </section>
   );
 };
 

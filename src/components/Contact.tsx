@@ -1,53 +1,75 @@
-import { Button } from '@/components/ui/button';
-import { Mail, Linkedin } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
+import { useInView } from '@/hooks/useInView';
 
 const Contact = () => {
+  const { ref: headerRef, revealStyle: headerReveal } = useInView();
+  const { ref: contentRef, revealStyle: contentReveal } = useInView(100);
+
   return (
-    <section id="contact" className="section py-16">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <h2 className="section-title">Get In Touch</h2>
+    <section id="contact" className="py-24 border-t border-border">
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={headerRef} style={headerReveal} className="flex items-center gap-6 mb-16">
+          <h2 className="text-xl font-semibold whitespace-nowrap">Contact</h2>
+          <div className="h-px flex-1 bg-border" />
+        </div>
 
-        <div className="max-w-3xl mx-auto">
-          <p className="text-lg mb-8 text-center">
-            I'm always open to discussing new projects, opportunities, or collaborations. Feel free to reach out to me through any of the channels below.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div ref={contentRef} style={contentReveal} className="grid md:grid-cols-2 gap-16">
+          <div>
+            <h3 className="text-3xl md:text-4xl font-bold leading-tight mb-6 text-foreground">
+              Let's build something.
+            </h3>
+            <p className="text-[15px] text-muted-foreground leading-relaxed mb-8">
+              Whether it's a new role, a side project, or just a chat about backend systems and AI — my inbox is open.
+            </p>
             <a
               href="mailto:dhrumilbhut@gmail.com"
-              className="flex items-center gap-4 p-6 rounded-lg shadow-sm hover:shadow-md transition-all group"
+              className="inline-flex items-center gap-2 text-sm font-medium text-foreground border-b border-foreground/20 pb-0.5 hover:border-foreground transition-colors"
             >
-              <div className="h-12 w-12 flex items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <Mail className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-medium text-lg">Email</h3>
-                <p className="text-muted-foreground">dhrumilbhut@gmail.com</p>
-              </div>
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/dhrumilbhut"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-6 rounded-lg shadow-sm hover:shadow-md transition-all group"
-            >
-              <div className="h-12 w-12 flex items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <Linkedin className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-medium text-lg">LinkedIn</h3>
-                <p className="text-muted-foreground">linkedin.com/in/dhrumilbhut</p>
-              </div>
+              dhrumilbhut@gmail.com ↗
             </a>
           </div>
 
-          <div className="text-center">
-            <Button className="px-8 rounded-full" size="lg" asChild>
-              <a href="mailto:dhrumilbhut@gmail.com">
-                Send Me an Email
-              </a>
-            </Button>
+          <div className="flex flex-col gap-4 justify-start pt-1">
+            <a
+              href="https://github.com/dhrumilbhut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 rounded-xl border border-border hover:border-foreground/20 hover:bg-card transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <Github className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">GitHub</span>
+              </div>
+              <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors">
+                github.com/dhrumilbhut ↗
+              </span>
+            </a>
+            <a
+              href="https://linkedin.com/in/dhrumilbhut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 rounded-xl border border-border hover:border-foreground/20 hover:bg-card transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <Linkedin className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">LinkedIn</span>
+              </div>
+              <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors">
+                linkedin.com/in/dhrumilbhut ↗
+              </span>
+            </a>
+            <a
+              href="mailto:dhrumilbhut@gmail.com"
+              className="flex items-center justify-between p-4 rounded-xl border border-border hover:border-foreground/20 hover:bg-card transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Email</span>
+              </div>
+              <span className="text-xs text-muted-foreground/50 group-hover:text-muted-foreground transition-colors">
+                dhrumilbhut@gmail.com ↗
+              </span>
+            </a>
           </div>
         </div>
       </div>
