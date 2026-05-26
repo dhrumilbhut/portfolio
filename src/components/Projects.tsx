@@ -12,7 +12,7 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: 'Netra: Influencer Management Platform',
+    name: 'Influencer Management Platform',
     company: 'Zuru Tech India',
     description:
       'Core backend for an Influencer Management Platform handling content, analytics, and cross-platform media distribution. Built a centralized middleware layer with dual-layer rate limiting, independently throttling inbound API traffic and outbound YouTube quota. Job processing runs on BullMQ + Redis (deduplication, retries, concurrency) with RabbitMQ pipelines publishing across Instagram, TikTok, and YouTube. Includes a full asset library with watermark-based vendor distribution: background jobs render processed copies with 6 placement options, proportional scaling, and edge-anchored positioning.',
@@ -21,12 +21,12 @@ const projects: Project[] = [
     live: null,
   },
   {
-    name: 'Linkq: URL Shortener',
+    name: 'LinkQ',
     description:
       'A production-grade URL shortener that separates redirect performance from analytics. Clicks are tracked asynchronously via a RabbitMQ worker so redirects are never delayed by database writes. Redis serves four distinct roles: redirect cache, atomic click counter, sliding-window rate limiter, and token store for a two-token JWT auth system with immediate revocation. Deployed on Railway with a 5-service architecture and a GitHub Actions CI pipeline.',
     tech: ['Node.js', 'Express.js', 'PostgreSQL', 'Redis', 'RabbitMQ', 'Docker', 'Railway', 'GitHub Actions'],
     github: 'https://github.com/dhrumilbhut',
-    live: 'https://api-production-679b.up.railway.app/',
+    live: 'https://linkq.dhrumilbhut.com/',
   },
   {
     name: 'LLM Search Platform',
