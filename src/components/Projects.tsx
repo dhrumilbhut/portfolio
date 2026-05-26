@@ -12,18 +12,18 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: 'Netra — Influencer Management Platform',
+    name: 'Netra: Influencer Management Platform',
     company: 'Zuru Tech India',
     description:
-      'Core backend for a centralized influencer platform. Engineered dual-layer rate limiting (API traffic + YouTube quota), BullMQ + Redis job scheduling with deduplication, and RabbitMQ consumer pipelines for automated media publishing across Instagram, TikTok, and YouTube.',
+      'Core backend for an Influencer Management Platform handling content, analytics, and cross-platform media distribution. Built a centralized middleware layer with dual-layer rate limiting, independently throttling inbound API traffic and outbound YouTube quota. Job processing runs on BullMQ + Redis (deduplication, retries, concurrency) with RabbitMQ pipelines publishing across Instagram, TikTok, and YouTube. Includes a full asset library with watermark-based vendor distribution: background jobs render processed copies with 6 placement options, proportional scaling, and edge-anchored positioning.',
     tech: ['Node.js', 'Express.js', 'PostgreSQL', 'BullMQ', 'Redis', 'RabbitMQ', 'SQLite', 'JWT'],
     github: null,
     live: null,
   },
   {
-    name: 'URL Shortener',
+    name: 'Linkq: URL Shortener',
     description:
-      'Infra-heavy URL shortener with fire-and-forget analytics via RabbitMQ — redirect latency stays independent of analytics throughput, with a dead-letter queue for failures. Redis in four patterns: LRU cache, atomic counters, sliding-window rate limiting, and TTL-based JWT blocklist. Deployed on Railway with Docker Compose and GitHub Actions CI.',
+      'A production-grade URL shortener that separates redirect performance from analytics. Clicks are tracked asynchronously via a RabbitMQ worker so redirects are never delayed by database writes. Redis serves four distinct roles: redirect cache, atomic click counter, sliding-window rate limiter, and token store for a two-token JWT auth system with immediate revocation. Deployed on Railway with a 5-service architecture and a GitHub Actions CI pipeline.',
     tech: ['Node.js', 'Express.js', 'PostgreSQL', 'Redis', 'RabbitMQ', 'Docker', 'Railway', 'GitHub Actions'],
     github: 'https://github.com/dhrumilbhut',
     live: 'https://api-production-679b.up.railway.app/',
@@ -39,7 +39,7 @@ const projects: Project[] = [
   {
     name: 'Voice-Driven AI Coding Assistant',
     description:
-      'Converts natural speech into executable code using LLMs. Dual-server backend — REST API and MCP JSON-RPC server sharing a single logic layer, eliminating duplication. Real-time speech processing with structured project generation.',
+      'Converts natural speech into executable code using LLMs. Dual-server backend: REST API and MCP JSON-RPC server share a single logic layer, eliminating duplication. Real-time speech processing with structured project generation.',
     tech: ['Python', 'FastAPI', 'OpenAI API', 'MCP', 'Speech-to-Text', 'Text-to-Speech'],
     github: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale',
     live: null,
@@ -141,8 +141,71 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   );
 };
 
+const FeaturedProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  const { ref, revealStyle } = useInView(index * 120);
+
+  return (
+    <div
+      ref={ref}
+      style={revealStyle}
+      className="group flex flex-col p-8 rounded-xl bg-card border border-border hover:border-foreground/30 transition-[border-color] duration-300"
+    >
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground/25 mb-5">Featured</p>
+      <div className="flex items-start justify-between gap-3 mb-5">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-base leading-snug text-foreground/90 group-hover:text-foreground transition-colors">
+            {project.name}
+          </h3>
+          {project.company && (
+            <p className="text-xs text-muted-foreground/60 mt-0.5">{project.company}</p>
+          )}
+        </div>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 text-muted-foreground/50 hover:text-foreground rounded-md transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+          )}
+          {project.live && (
+            <a
+              href={project.live}
+              target={project.live !== '#' ? '_blank' : undefined}
+              rel="noopener noreferrer"
+              className="p-1.5 text-muted-foreground/50 hover:text-foreground rounded-md transition-colors"
+              aria-label="Live demo"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
+        </div>
+      </div>
+      <p className="text-[15px] text-muted-foreground leading-relaxed mb-6 flex-grow">
+        {project.description}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {project.tech.map((t) => (
+          <span
+            key={t}
+            className="text-xs px-2.5 py-1 rounded bg-secondary border border-border/60 text-muted-foreground"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Projects = () => {
   const { ref, revealStyle } = useInView();
+  const featured = projects.slice(0, 2);
+  const rest = projects.slice(2);
 
   return (
     <section id="projects" className="py-24 border-t border-border">
@@ -152,8 +215,19 @@ const Projects = () => {
           <div className="h-px flex-1 bg-border" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {projects.map((project, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+          {featured.map((project, i) => (
+            <FeaturedProjectCard key={project.name} project={project} index={i} />
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4 mb-6">
+          <span className="text-xs uppercase tracking-widest text-muted-foreground/30">Other Work</span>
+          <div className="h-px flex-1 bg-border/50" />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {rest.map((project, i) => (
             <ProjectCard key={project.name} project={project} index={i} />
           ))}
         </div>

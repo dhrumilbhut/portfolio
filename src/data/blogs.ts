@@ -25,7 +25,7 @@ export const blogs: Blog[] = [
     link: 'https://dhrumilbhut.medium.com/transforming-voice-into-code-building-an-ai-powered-voice-coding-assistant-with-hybrid-mcp-958ade5893cb',
   },
   {
-    title: 'Execution Context in JavaScript — How JavaScript Code Gets Executed',
+    title: 'Execution Context in JavaScript: How JavaScript Code Gets Executed',
     date: '2023-05-11',
     tags: ['JavaScript', 'Programming', 'JavaScript Tips'],
     preview:

@@ -19,7 +19,7 @@ const Contact = () => {
               Let's build something.
             </h3>
             <p className="text-[15px] text-muted-foreground leading-relaxed mb-8">
-              Whether it's a new role, a side project, or just a chat about backend systems and AI — my inbox is open.
+              Whether it's a new role, a side project, or just a chat about backend systems and AI. My inbox is open.
             </p>
             <a
               href="mailto:dhrumilbhut@gmail.com"

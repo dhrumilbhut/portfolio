@@ -1,4 +1,39 @@
+import { useEffect, useState } from 'react';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import { useInView } from '@/hooks/useInView';
+
+function useCountUp(to: number, duration: number, active: boolean) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let id: number;
+    const t0 = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / duration, 1);
+      setVal((1 - Math.pow(1 - p, 3)) * to);
+      if (p < 1) id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, [active, to, duration]);
+  return val;
+}
+
+type StatProps = { to: number; suffix: string; label: string; decimals?: number; delay?: number };
+
+const StatItem = ({ to, suffix, label, decimals = 0, delay = 0 }: StatProps) => {
+  const { ref, inView, revealStyle } = useInView<HTMLDivElement>(delay);
+  const val = useCountUp(to, 1400, inView);
+  const display = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toString();
+  return (
+    <div ref={ref} style={revealStyle}>
+      <p className="text-2xl font-bold text-foreground tabular-nums">
+        {display}{suffix}
+      </p>
+      <p className="text-xs text-muted-foreground/50 mt-1 uppercase tracking-widest">{label}</p>
+    </div>
+  );
+};
 
 const Hero = () => {
   const scrollTo = (id: string) => {
@@ -24,10 +59,10 @@ const Hero = () => {
           {/* Left — role + description */}
           <div>
             <p className="text-lg font-medium text-foreground/80 mb-4">
-              Software Engineer — Backend Systems & API Development
+              Software Engineer, Backend Systems & API Development
             </p>
             <p className="text-[15px] text-muted-foreground leading-relaxed max-w-md mb-8">
-              2.5+ years designing and shipping production-grade backend systems — scalable APIs,
+              2.5+ years designing and shipping production-grade backend systems: scalable APIs,
               distributed job pipelines, and infra-heavy services built with Node.js, PostgreSQL,
               and AWS. Also skilled in Applied AI: RAG pipelines, multi-agent workflows, and MLOps.
             </p>
@@ -46,6 +81,12 @@ const Hero = () => {
               >
                 Get in Touch
               </button>
+            </div>
+
+            {/* Stats */}
+            <div className="mt-12 pt-8 border-t border-border/40 grid grid-cols-2 gap-6">
+              <StatItem to={2.5} suffix="+" label="Years Experience" decimals={1} delay={0} />
+              <StatItem to={8} suffix="+" label="Projects Shipped" delay={80} />
             </div>
           </div>
 
