@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Zinc warm-dark palette — dark but has warmth, not blue-black */
+    --background: 240 10% 4%;        /* zinc-950  #09090b */
+    --foreground: 300 5% 98%;        /* zinc-50   #fafafa */
+
+    --card: 240 6% 10%;              /* zinc-900  #18181b */
+    --card-foreground: 300 5% 98%;
+
+    --popover: 240 6% 10%;
+    --popover-foreground: 300 5% 98%;
+
+    --primary: 300 5% 98%;           /* white — premium action color */
+    --primary-foreground: 240 10% 4%; /* dark text on white buttons */
+
+    --secondary: 240 5% 15%;         /* zinc-800ish */
+    --secondary-foreground: 240 4% 65%;
+
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 4% 55%;   /* zinc-500 */
+
+    --accent: 240 5% 15%;
+    --accent-foreground: 300 5% 98%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 300 5% 98%;
+
+    --border: 240 4% 16%;            /* zinc-800  #27272a */
+    --input: 240 4% 16%;
+    --ring: 300 5% 70%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    @apply border-border;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fafafa;
+  }
+}
+
+html {
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* Entrance animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.97); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0) scale(1);       filter: blur(0px); }
+}
+
+.animate-fade-up { animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+.animate-fade-up-delay-1 { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.12s; }
+.animate-fade-up-delay-2 { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.24s; }
+.animate-fade-up-delay-3 { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.36s; }
+.animate-fade-up-delay-4 { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: 0.48s; }

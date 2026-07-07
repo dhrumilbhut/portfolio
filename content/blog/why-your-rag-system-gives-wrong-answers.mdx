@@ -1,0 +1,74 @@
+---
+title: "Why Your RAG System Gives Wrong Answers"
+description: "Retrieval failures and generation failures look identical from the outside. Claim-level attribution tells you which one actually broke your RAG pipeline."
+date: "2026-06-23"
+tags: ["RAG", "AI Observability", "Backend"]
+draft: false
+closing: "If you're dealing with this in your own RAG system, I'd be curious how you're approaching the distinction."
+---
+
+A user reports a wrong answer from your RAG system. You open the trace. The answer reads fine. It's confident, it's fluent, the sentence structure is correct, and it's wrong.
+
+Now you have to figure out why. Was the right document never found? Or was it found, and the model just botched what it said? From the outside, both look exactly the same. A wrong answer doesn't come labeled with its cause.
+
+At startup scale this isn't a minor annoyance. A small team doesn't have a week to spend tuning the retriever only to discover the retriever was never the problem. They need to know which system to fix before they touch anything, and most eval setups can't tell them that.
+
+Every wrong answer in a RAG pipeline traces back to exactly one of two places. Either the retriever never surfaced the right document, or it did, and the model said something the document doesn't actually support. Those are different failures with different fixes, and conflating them is where most RAG debugging time gets wasted.
+
+## What dropping a single word actually looks like
+
+I caught this on a real trace while building an attribution checker for a RAG eval tool. The source document said the return policy allowed in-store items back within 14 business days with a receipt. The model's answer said 14 days. No "business."
+
+Run that through a generic faithfulness check and you'll likely get a fail, because the claim and the source don't fully match. What a fail doesn't tell you is whether the model invented the 14-day window or whether it was looking at the right paragraph and just trimmed a word out of it.
+
+Claim-level attribution answers that question directly. The attribution score for this claim came back at 0.91, high confidence that the claim maps to a real, identifiable span in the source. The retriever did its job. The right paragraph was right there in context.
+
+The judge's reasoning made the actual failure explicit. It flagged that the source specifies "business days" while the claim states "days," a meaningful difference for a policy timeline. High attribution, failed faithfulness. That combination is the signature of a generation problem. The document was found. The model misrepresented what it said.
+
+Now compare that to a retrieval failure. A user asks about a refund timeline for a product category that was never indexed, or got chunked in a way that separated the policy text from the heading that would have made it findable. The retriever comes back empty, or it comes back with a document that has nothing to do with the question. There's no claim to check attribution against, because there's no source to attribute to. The attribution result is null, not low. Nothing was ever in the running.
+
+No LLM judgment is required to know what happened in that second case. The retriever simply didn't return the right thing. You can see it in the retrieved chunks themselves.
+
+## Why a wrong answer never tells you which one happened
+
+This is the part that makes RAG debugging unusually hard compared to other software failures. A null-retrieval answer and a dropped-word answer can come out of the generation step sounding identical. There is no tell in the tone of a hallucinated answer versus a misrepresented one.
+
+That's because the language model's job, at the surface level, is to produce a plausible sounding response regardless of what it had to work with. A model improvising from nothing and a model dropping one word from a real source are both, linguistically, just generating fluent text. The text carries no signal about what happened upstream.
+
+The only way to tell the two apart is to stop reading the answer and start looking at what happened internally during the pipeline run. What was retrieved, and whether each specific claim in the response can be traced back to it. The symptom is uninformative. The internals are not.
+
+## Why a single faithfulness score makes this worse, not better
+
+Most RAG eval tools collapse this entire distinction into one number. You get a faithfulness score, or a correctness score, or some blended quality metric, and it tells you the response is, say, 60% faithful to the source.
+
+That number is true and almost useless. A low score tells you something is broken. It does not tell you where. The same 60% score could mean the retriever is consistently missing the right chunks, or it could mean the retriever is fine and the model is consistently dropping or altering details on otherwise correct retrievals. Those require completely different engineering responses.
+
+This is where teams burn real time. I've seen the instinct play out predictably. A low faithfulness score comes in, the team assumes retrieval is the problem, and they spend days re-tuning chunk sizes, swapping embedding models, or adjusting the reranker. If the actual problem was generation, none of that moves the number. The team concludes RAG doesn't work for their use case, when the real issue was a single layer they never tested in isolation.
+
+A score that blends two independent failure modes into one digit isn't a simplification. It's a loss of the exact information you need to act.
+
+## What separating them actually requires
+
+The fix isn't a better blended score. It's a different unit of analysis. Instead of asking "is this whole response faithful to the source," the check needs to happen at the level of individual claims within the response.
+
+Each claim in an answer gets checked against the source independently. Was this specific assertion supported by something retrievable, and if so, does the assertion match what the source actually says. That's two separate questions, and answering them separately is what makes the two failure modes visible instead of blended.
+
+In practice this means an attribution step that runs per claim, not per response. Decompose the answer into its individual factual assertions. For each one, search for the strongest matching span in the retrieved context and score how well it maps. Then, separately, run a faithfulness check against the matched span specifically, not against the whole document dump.
+
+High attribution, failed faithfulness means the source was found and the model misrepresented it. That's a generation problem: fix the prompt, the output format, or whether the model is summarizing too aggressively.
+
+Null or low attribution means nothing relevant was found in the first place. That's a retrieval problem: fix chunking, indexing, or reranking. The model isn't even part of the failure here. It was working with nothing.
+
+That's the entire diagnostic. No judgment call required once you're looking at the right layer. The two numbers point at two different parts of the system, and you fix the one they point at.
+
+It's worth being honest about the limits here too. Claim-level attribution adds real cost: more granular extraction, more judge calls per response, more moving parts in the eval pipeline itself. It's not something you want running on every production request at scale. It earns its place in the debugging and eval workflow, where the cost of misdiagnosing a failure is higher than the cost of running the check.
+
+## What this changes for anyone building on retrieval
+
+The fix for a retrieval failure and the fix for a generation failure don't overlap. One is an indexing and chunking problem. The other is a prompting and output-handling problem. Spending engineering time on the wrong one doesn't just cost a week, it can convince a team that RAG is unreliable when the actual issue was one identifiable layer they never isolated.
+
+Once you can see which system broke, the fix is usually small and specific. A chunking adjustment. A stricter prompt about quoting exact figures. Cheap, because you know exactly where to apply it.
+
+The expensive path is the one where you try every fix, in the wrong order, against a single score that was never going to tell you which one mattered.
+
+This attribution checker is part of [ContextLens](https://github.com/dhrumilbhut/ContextLens), the RAG eval tool I've been building. The repo has the claim decomposer and judge prompts if you want to see how the attribution scoring actually works. There's also a landing page at [contextlens.dhrumilbhut.com](https://contextlens.dhrumilbhut.com) if you want the broader picture of what it does.
