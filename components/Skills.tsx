@@ -1,6 +1,7 @@
 "use client";
 
 import { useInView } from '@/hooks/useInView';
+import SectionHeading from '@/components/SectionHeading';
 
 type SkillCategory = {
   title: string;
@@ -48,16 +49,19 @@ const SkillCard = ({ category, index }: { category: SkillCategory; index: number
     <div
       ref={ref}
       style={revealStyle}
-      className={`p-5 rounded-xl bg-card border border-border flex flex-col gap-3 ${category.span}`}
+      className={`glow-card p-6 flex flex-col gap-4 ${category.span}`}
     >
-      <p className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground/40">
-        {category.title}
-      </p>
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="font-serif font-medium text-xl text-foreground">{category.title}</h3>
+        <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted/60 pt-1.5">
+          Cat—{String.fromCharCode(65 + index)}
+        </span>
+      </div>
       <div className="flex flex-wrap gap-2">
         {category.skills.map((skill) => (
           <span
             key={skill}
-            className="text-[13px] px-3 py-1.5 rounded-lg bg-secondary border border-border/50 text-foreground/70"
+            className="font-mono text-xs border border-border rounded-full px-3 py-1 text-muted"
           >
             {skill}
           </span>
@@ -71,14 +75,13 @@ const Skills = () => {
   const { ref, revealStyle } = useInView();
 
   return (
-    <section id="skills" className="py-24 border-t border-border">
+    <section id="skills" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <div ref={ref} style={revealStyle} className="flex items-center gap-6 mb-16">
-          <h2 className="text-xl font-semibold whitespace-nowrap">Technical Stack</h2>
-          <div className="h-px flex-1 bg-border" />
+        <div ref={ref} style={revealStyle} className="mb-14">
+          <SectionHeading number="06" label="Skills" tagline="Tools of the Trade" title="Technical Stack" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {categories.map((cat, i) => (
             <SkillCard key={cat.title} category={cat} index={i} />
           ))}

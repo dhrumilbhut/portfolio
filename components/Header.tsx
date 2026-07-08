@@ -7,7 +7,7 @@ import { Menu, X } from 'lucide-react';
 const navLinks = [
   { label: 'About', id: 'about' },
   { label: 'Experience', id: 'experience' },
-  { label: 'Projects', id: 'projects' },
+  { label: 'Work', id: 'projects' },
   { label: 'Writing', id: 'blogs' },
   { label: 'Skills', id: 'skills' },
   { label: 'Contact', id: 'contact' },
@@ -16,7 +16,7 @@ const navLinks = [
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('about');
+  const [activeSection, setActiveSection] = useState('');
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === '/';
@@ -67,20 +67,20 @@ const Header = () => {
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
         <a
           href="/"
-          className="text-sm font-semibold tracking-tight text-foreground hover:text-foreground/70 transition-colors"
+          className="font-serif text-lg font-semibold tracking-tight text-foreground hover:text-foreground/70 transition-colors"
         >
-          Dhrumil Bhut
+          Dhrumil <span className="text-accent-light">B.</span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map(link => (
             <button
               key={link.id}
               onClick={() => scrollTo(link.id)}
-              className={`text-sm transition-colors duration-200 ${
+              className={`font-mono text-[11px] tracking-[0.2em] uppercase transition-colors duration-200 ${
                 isHome && activeSection === link.id
-                  ? 'text-foreground'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-accent-light'
+                  : 'text-muted hover:text-foreground'
               }`}
             >
               {link.label}
@@ -90,7 +90,7 @@ const Header = () => {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-foreground border border-border px-4 py-1.5 rounded-full hover:bg-foreground hover:text-background transition-colors"
+            className="font-mono text-[11px] tracking-[0.2em] uppercase bg-foreground text-background px-5 py-2 rounded-full hover:bg-foreground/85 transition-colors"
           >
             Resume ↗
           </a>
@@ -112,10 +112,10 @@ const Header = () => {
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className={`text-left py-3 text-sm border-b border-border/40 last:border-0 transition-colors ${
+                className={`text-left py-3 font-mono text-xs tracking-[0.2em] uppercase border-b border-border/40 last:border-0 transition-colors ${
                   isHome && activeSection === link.id
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-accent-light'
+                    : 'text-muted hover:text-foreground'
                 }`}
               >
                 {link.label}
@@ -125,9 +125,9 @@ const Header = () => {
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 text-sm text-foreground"
+              className="mt-4 font-mono text-xs tracking-[0.2em] uppercase text-foreground"
             >
-              View Resume ↗
+              Resume ↗
             </a>
           </nav>
         </div>

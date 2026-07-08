@@ -84,7 +84,7 @@ export default async function BlogPostPage({ params }: Props) {
         />
         <article>
           <header>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight text-foreground">
+            <h1 className="font-serif font-medium text-4xl md:text-5xl leading-tight text-foreground">
               {post.frontmatter.title}
             </h1>
             <p className="mt-4 text-xs text-muted-foreground/50">
