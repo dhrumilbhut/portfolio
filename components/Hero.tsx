@@ -65,16 +65,13 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Bottom strip — coordinates + scroll cue */}
+      {/* Bottom strip — scroll cue */}
       <div className="absolute bottom-6 left-0 right-0">
-        <div className="max-w-6xl mx-auto px-6 flex items-end justify-between">
-          <div className="hidden sm:flex flex-col items-center gap-2 mx-auto">
+        <div className="max-w-6xl mx-auto px-6 flex items-end justify-center">
+          <div className="hidden sm:flex flex-col items-center gap-2">
             <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted/70">Scroll</span>
             <span className="w-px h-8 bg-border" aria-hidden="true" />
           </div>
-          <p className="font-mono text-[10px] tracking-[0.2em] text-muted/60 absolute right-6 bottom-0">
-            DB—01 · 23.02°N 72.57°E
-          </p>
         </div>
       </div>
     </section>

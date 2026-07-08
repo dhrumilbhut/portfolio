@@ -1,6 +1,7 @@
 "use client";
 
-import { Github, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+import { Github, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import SectionHeading from '@/components/SectionHeading';
 import DragScroll from '@/components/DragScroll';
@@ -303,6 +304,65 @@ const CaseStudyCard = ({ study, index }: { study: CaseStudy; index: number }) =>
   );
 };
 
+const FeaturedCarousel = ({ studies }: { studies: CaseStudy[] }) => {
+  const [active, setActive] = useState(0);
+  const total = studies.length;
+  const go = (i: number) => setActive(((i % total) + total) % total);
+
+  return (
+    <div
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft') go(active - 1);
+        if (e.key === 'ArrowRight') go(active + 1);
+      }}
+    >
+      {/* Tabs */}
+      <div role="tablist" aria-label="Featured projects" className="flex flex-wrap items-center gap-2 mb-8">
+        {studies.map((s, i) => (
+          <button
+            key={s.name}
+            role="tab"
+            aria-selected={active === i}
+            onClick={() => setActive(i)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full border font-mono text-xs tracking-[0.1em] uppercase transition-colors duration-200 ${
+              active === i
+                ? 'border-accent text-accent-light bg-accent/10'
+                : 'border-border text-muted hover:text-foreground hover:border-foreground/30'
+            }`}
+          >
+            <span>{String(i + 1).padStart(2, '0')}</span>
+            <span className="hidden sm:inline normal-case tracking-normal">{s.name}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Active card */}
+      <CaseStudyCard key={studies[active].name} study={studies[active]} index={active} />
+
+      {/* Prev / position / next */}
+      <div className="flex items-center justify-between mt-6">
+        <button
+          onClick={() => go(active - 1)}
+          aria-label="Previous project"
+          className="p-2.5 rounded-full border border-border text-muted hover:text-foreground hover:border-accent/50 transition-colors duration-200"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <p className="font-mono text-xs tracking-[0.2em] text-muted">
+          {String(active + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+        </p>
+        <button
+          onClick={() => go(active + 1)}
+          aria-label="Next project"
+          className="p-2.5 rounded-full border border-border text-muted hover:text-foreground hover:border-accent/50 transition-colors duration-200"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const { ref, revealStyle } = useInView((index % 3) * 60);
 
@@ -381,9 +441,7 @@ const Projects = () => {
         </div>
 
         <div className="mb-24">
-          {caseStudies.map((study, i) => (
-            <CaseStudyCard key={study.name} study={study} index={i} />
-          ))}
+          <FeaturedCarousel studies={caseStudies} />
         </div>
 
         <div ref={otherRef} style={otherReveal} className="mb-10">

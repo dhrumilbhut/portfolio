@@ -25,12 +25,4 @@ export const externalPosts: ExternalPost[] = [
       'Describes a system enabling voice-to-code generation through a hybrid architecture supporting both REST APIs and the Model Context Protocol (MCP), emphasising structured AI communication for developer collaboration.',
     link: 'https://dhrumilbhut.medium.com/transforming-voice-into-code-building-an-ai-powered-voice-coding-assistant-with-hybrid-mcp-958ade5893cb',
   },
-  {
-    title: 'Execution Context in JavaScript: How JavaScript Code Gets Executed',
-    date: '2023-05-11',
-    tags: ['JavaScript', 'Programming', 'JavaScript Tips'],
-    preview:
-      'Explains how JavaScript engines create execution environments containing memory and code components to process and run JavaScript applications.',
-    link: 'https://dhrumilbhut.medium.com/execution-context-in-javascript-how-javascript-code-gets-executed-895171e27e52',
-  },
 ];

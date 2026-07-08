@@ -37,7 +37,7 @@ const StatCell = ({ to, suffix, label, decimals = 0, className = '' }: StatProps
   const display = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toString();
   return (
     <div ref={ref} className={`p-6 md:p-8 ${className}`}>
-      <p className="font-serif text-4xl md:text-5xl text-accent-light tabular-nums">
+      <p className="font-serif text-4xl md:text-5xl text-accent-light tabular-nums lining-nums">
         {display}
         {suffix}
       </p>
