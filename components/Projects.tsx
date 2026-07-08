@@ -2,6 +2,8 @@
 
 import { Github, ExternalLink } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
+import SectionHeading from '@/components/SectionHeading';
+import DragScroll from '@/components/DragScroll';
 
 type CaseStudySection = {
   label: string;
@@ -161,7 +163,7 @@ const projects: Project[] = [
     description:
       'A production-grade URL shortener that separates redirect performance from analytics. Clicks are tracked asynchronously via a RabbitMQ worker so redirects are never delayed by database writes. Redis serves four distinct roles: redirect cache, atomic click counter, sliding-window rate limiter, and token store for a two-token JWT auth system with immediate revocation. Deployed on Railway with a 5-service architecture and a GitHub Actions CI pipeline.',
     tech: ['Node.js', 'Express.js', 'PostgreSQL', 'Redis', 'RabbitMQ', 'Docker', 'Railway', 'GitHub Actions'],
-    github: 'https://github.com/dhrumilbhut',
+    github: 'https://github.com/dhrumilbhut/linkq',
     live: 'https://linkq.dhrumilbhut.com/',
   },
   {
@@ -177,7 +179,7 @@ const projects: Project[] = [
     description:
       'Converts natural speech into executable code using LLMs. Dual-server backend: REST API and MCP JSON-RPC server share a single logic layer, eliminating duplication. Real-time speech processing with structured project generation.',
     tech: ['Python', 'FastAPI', 'OpenAI API', 'MCP', 'Speech-to-Text', 'Text-to-Speech'],
-    github: 'https://github.com/dhrumilbhut/Content-Creation-At-Scale',
+    github: 'https://github.com/dhrumilbhut/voice-coding-assistant',
     live: null,
   },
   {
@@ -221,16 +223,18 @@ const CaseStudyCard = ({ study, index }: { study: CaseStudy; index: number }) =>
     <article
       ref={ref}
       style={revealStyle}
-      className="group flex flex-col p-8 rounded-xl bg-card border border-border hover:border-foreground/30 transition-[border-color] duration-300"
+      className="glow-card group flex flex-col p-8 md:p-10 mb-12 last:mb-0"
     >
-      <p className="text-[10px] uppercase tracking-widest text-muted-foreground/25 mb-5">Featured</p>
-      <div className="flex items-start justify-between gap-3 mb-2">
+      <div className="flex items-start justify-between gap-3 mb-6">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-base leading-snug text-foreground/90 group-hover:text-foreground transition-colors">
+          <span className="outline-numeral block text-6xl md:text-7xl leading-none select-none" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <h3 className="font-serif font-medium text-3xl md:text-4xl text-foreground mt-5">
             {study.name}
           </h3>
           {study.company && (
-            <p className="text-xs text-muted-foreground/60 mt-0.5">{study.company}</p>
+            <p className="font-mono text-xs tracking-[0.2em] uppercase text-meta mt-2.5">{study.company}</p>
           )}
         </div>
         <div className="flex items-center gap-1 flex-shrink-0">
@@ -261,7 +265,7 @@ const CaseStudyCard = ({ study, index }: { study: CaseStudy; index: number }) =>
 
       {study.sections.map((section) => (
         <section key={section.label}>
-          <p className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground/40 mt-6 mb-2.5">
+          <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-accent-light mt-8 mb-2.5">
             {section.label}
           </p>
           {section.paragraphs?.map((paragraph) => (
@@ -273,7 +277,7 @@ const CaseStudyCard = ({ study, index }: { study: CaseStudy; index: number }) =>
             <ul className="space-y-2.5">
               {section.bullets.map((bullet) => (
                 <li key={bullet} className="flex gap-3 text-sm text-muted-foreground leading-relaxed">
-                  <span className="mt-[9px] w-1 h-1 rounded-full bg-foreground/30 flex-shrink-0" />
+                  <span className="mt-[9px] w-1 h-1 rounded-full bg-accent flex-shrink-0" />
                   {bullet}
                 </li>
               ))}
@@ -282,14 +286,14 @@ const CaseStudyCard = ({ study, index }: { study: CaseStudy; index: number }) =>
         </section>
       ))}
 
-      <p className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground/40 mt-6 mb-3">
+      <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-accent-light mt-8 mb-3">
         Tech Stack
       </p>
       <div className="flex flex-wrap gap-2">
         {study.tech.map((t) => (
           <span
             key={t}
-            className="text-xs px-2.5 py-1 rounded bg-secondary border border-border/60 text-muted-foreground"
+            className="font-mono text-xs border border-border rounded-full px-3 py-1 text-muted"
           >
             {t}
           </span>
@@ -300,24 +304,18 @@ const CaseStudyCard = ({ study, index }: { study: CaseStudy; index: number }) =>
 };
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
-  // Stagger: left column (even index) reveals first, right column (odd) 90ms later per row
-  const { ref, revealStyle } = useInView((index % 2) * 90);
+  const { ref, revealStyle } = useInView((index % 3) * 60);
 
   return (
     <div
       ref={ref}
       style={revealStyle}
-      className="group flex flex-col p-6 rounded-xl bg-card border border-border hover:border-foreground/20 transition-[border-color] duration-300"
+      className="glow-card group flex flex-col p-6 min-w-[280px] max-w-[320px] snap-start flex-shrink-0"
     >
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-[15px] leading-snug text-foreground/90 group-hover:text-foreground transition-colors">
-            {project.name}
-          </h3>
-          {project.company && (
-            <p className="text-xs text-muted-foreground/60 mt-0.5">{project.company}</p>
-          )}
-        </div>
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <span className="outline-numeral text-4xl leading-none select-none" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
+        </span>
         <div className="flex items-center gap-1 flex-shrink-0">
           {project.github && (
             <a
@@ -344,6 +342,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         </div>
       </div>
 
+      <h3 className="font-serif font-medium text-xl leading-snug text-foreground mb-3">
+        {project.name}
+      </h3>
+
       <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-grow">
         {project.description}
       </p>
@@ -352,7 +354,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         {project.tech.map((t) => (
           <span
             key={t}
-            className="text-xs px-2 py-1 rounded bg-secondary border border-border/60 text-muted-foreground"
+            className="font-mono text-xs border border-border rounded-full px-3 py-1 text-muted"
           >
             {t}
           </span>
@@ -364,31 +366,40 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
 const Projects = () => {
   const { ref, revealStyle } = useInView();
+  const { ref: otherRef, revealStyle: otherReveal } = useInView();
 
   return (
-    <section id="projects" className="py-24 border-t border-border">
+    <section id="projects" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <div ref={ref} style={revealStyle} className="flex items-center gap-6 mb-16">
-          <h2 className="text-xl font-semibold whitespace-nowrap">Projects</h2>
-          <div className="h-px flex-1 bg-border" />
+        <div ref={ref} style={revealStyle} className="mb-14">
+          <SectionHeading
+            number="03"
+            label="Featured Work"
+            tagline="Case Studies, In Depth"
+            title="Featured Work"
+          />
         </div>
 
-        <div className="flex flex-col gap-6 mb-12">
+        <div className="mb-24">
           {caseStudies.map((study, i) => (
             <CaseStudyCard key={study.name} study={study} index={i} />
           ))}
         </div>
 
-        <div className="flex items-center gap-4 mb-6">
-          <span className="text-xs uppercase tracking-widest text-muted-foreground/30">Other Work</span>
-          <div className="h-px flex-1 bg-border/50" />
+        <div ref={otherRef} style={otherReveal} className="mb-10">
+          <SectionHeading
+            number="04"
+            label="Other Work"
+            tagline="Under the Hood — Drag Scroll →"
+            title="Other Work"
+          />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <DragScroll>
           {projects.map((project, i) => (
             <ProjectCard key={project.name} project={project} index={i} />
           ))}
-        </div>
+        </DragScroll>
       </div>
     </section>
   );

@@ -23,13 +23,13 @@ export default function BlogPage() {
     <div className="pt-32 pb-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center gap-6 mb-12">
-          <h1 className="text-xl font-semibold whitespace-nowrap">Writing</h1>
+          <h1 className="font-serif font-medium text-4xl md:text-5xl whitespace-nowrap">Writing</h1>
           <div className="h-px flex-1 bg-border" />
           <a
             href="https://medium.com/@dhrumilbhut"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-muted-foreground/50 hover:text-foreground transition-colors whitespace-nowrap"
+            className="font-mono text-xs tracking-[0.15em] uppercase text-muted-foreground/60 hover:text-foreground transition-colors whitespace-nowrap"
           >
             Medium ↗
           </a>

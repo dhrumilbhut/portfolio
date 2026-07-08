@@ -1,138 +1,80 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
-import { useInView } from '@/hooks/useInView';
-
-function useCountUp(to: number, duration: number, active: boolean) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    let id: number;
-    const t0 = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min((now - t0) / duration, 1);
-      setVal((1 - Math.pow(1 - p, 3)) * to);
-      if (p < 1) id = requestAnimationFrame(tick);
-    };
-    id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
-  }, [active, to, duration]);
-  return val;
-}
-
-type StatProps = { to: number; suffix: string; label: string; decimals?: number; delay?: number };
-
-const StatItem = ({ to, suffix, label, decimals = 0, delay = 0 }: StatProps) => {
-  const { ref, inView, revealStyle } = useInView<HTMLDivElement>(delay);
-  const val = useCountUp(to, 1400, inView);
-  const display = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toString();
-  return (
-    <div ref={ref} style={revealStyle}>
-      <p className="text-2xl font-bold text-foreground tabular-nums">
-        {display}{suffix}
-      </p>
-      <p className="text-xs text-muted-foreground/50 mt-1 uppercase tracking-widest">{label}</p>
-    </div>
-  );
-};
-
 const Hero = () => {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="about" className="min-h-screen flex flex-col justify-center pt-16">
+    <section className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
+      {/* Soft accent glows anchoring the type */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 right-[-10%] w-[560px] h-[560px] rounded-full opacity-[0.07]"
+        style={{ background: 'radial-gradient(circle, #8B5CF6 0%, transparent 70%)' }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-[-20%] left-[-10%] w-[480px] h-[480px] rounded-full opacity-[0.05]"
+        style={{ background: 'radial-gradient(circle, #67E8F9 0%, transparent 70%)' }}
+      />
+
       <div className="max-w-6xl mx-auto px-6 w-full py-24">
+        <p className="flex items-center gap-2.5 font-mono text-xs tracking-[0.25em] uppercase text-muted mb-8 animate-fade-up">
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
+          Software Engineer — Ahmedabad, IN
+        </p>
 
-        {/* Large name — confident and editorial */}
-        <div className="animate-fade-up mb-6">
-          <h1 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-bold tracking-tight leading-tight text-foreground whitespace-nowrap">
-            Dhrumil Bhut
-          </h1>
+        <p className="font-serif italic text-2xl md:text-3xl text-muted mb-2 animate-fade-up">
+          Hi, I&apos;m
+        </p>
+
+        <h1 className="font-serif font-medium leading-[1.05] mb-8 animate-fade-up-delay-1">
+          <span className="block text-6xl sm:text-7xl lg:text-8xl text-foreground">Dhrumil</span>
+          <span className="block text-6xl sm:text-7xl lg:text-8xl text-accent-light">Bhut</span>
+        </h1>
+
+        <p className="max-w-xl text-lg text-muted leading-relaxed mb-10 animate-fade-up-delay-2">
+          2.5+ years crafting <strong className="text-foreground font-semibold">scalable backend systems</strong> —
+          distributed job pipelines, infra-heavy APIs, and the{' '}
+          <strong className="text-foreground font-semibold">applied-AI layer</strong> on top: RAG pipelines,
+          multi-agent workflows, and MLOps.
+        </p>
+
+        <div className="flex flex-wrap items-center gap-6 animate-fade-up-delay-3">
+          <button
+            onClick={() => scrollTo('contact')}
+            className="btn-accent px-7 py-3 text-sm font-semibold rounded-lg"
+          >
+            Let&apos;s talk →
+          </button>
+          <button
+            onClick={() => scrollTo('projects')}
+            className="text-sm font-medium text-foreground border-b border-foreground/40 pb-0.5 hover:border-foreground transition-colors"
+          >
+            View selected work
+          </button>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-muted border-b border-transparent pb-0.5 hover:text-foreground hover:border-foreground/40 transition-colors"
+          >
+            Resume ↗
+          </a>
         </div>
+      </div>
 
-        {/* Horizontal rule */}
-        <div className="h-px bg-border w-full mb-10 animate-fade-up-delay-1" />
-
-        {/* Two-column below the rule */}
-        <div className="grid md:grid-cols-2 gap-12 animate-fade-up-delay-2">
-          {/* Left — role + description */}
-          <div>
-            <p className="text-lg font-medium text-foreground/80 mb-4">
-              Software Engineer, Backend Systems & API Development
-            </p>
-            <p className="text-[15px] text-muted-foreground leading-relaxed max-w-md mb-8">
-              2.5+ years designing and shipping production-grade backend systems: scalable APIs,
-              distributed job pipelines, and infra-heavy services built with Node.js, PostgreSQL,
-              and AWS. Also skilled in Applied AI: RAG pipelines, multi-agent workflows, and MLOps.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 text-sm font-medium bg-foreground text-background rounded-full hover:bg-foreground/90 transition-colors"
-              >
-                View Resume ↗
-              </a>
-              <button
-                onClick={() => scrollTo('contact')}
-                className="px-6 py-2.5 text-sm font-medium border border-border text-muted-foreground rounded-full hover:text-foreground hover:border-foreground/30 transition-colors"
-              >
-                Get in Touch
-              </button>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-12 pt-8 border-t border-border/40 grid grid-cols-2 gap-6">
-              <StatItem to={2.5} suffix="+" label="Years Experience" decimals={1} delay={0} />
-              <StatItem to={8} suffix="+" label="Projects Shipped" delay={80} />
-            </div>
+      {/* Bottom strip — coordinates + scroll cue */}
+      <div className="absolute bottom-6 left-0 right-0">
+        <div className="max-w-6xl mx-auto px-6 flex items-end justify-between">
+          <div className="hidden sm:flex flex-col items-center gap-2 mx-auto">
+            <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted/70">Scroll</span>
+            <span className="w-px h-8 bg-border" aria-hidden="true" />
           </div>
-
-          {/* Right — location + social */}
-          <div className="flex flex-col justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest mb-2">Based in</p>
-              <p className="text-sm text-muted-foreground mb-8">Ahmedabad, India</p>
-
-              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest mb-2">Currently</p>
-              <p className="text-sm text-muted-foreground mb-8">
-                Software Engineer at Zuru Tech India
-              </p>
-
-              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest mb-3">Find me</p>
-              <div className="flex items-center gap-5">
-                <a
-                  href="https://github.com/dhrumilbhut"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/dhrumilbhut"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a
-                  href="mailto:dhrumilbhut@gmail.com"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Email"
-                >
-                  <Mail className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-          </div>
+          <p className="font-mono text-[10px] tracking-[0.2em] text-muted/60 absolute right-6 bottom-0">
+            DB—01 · 23.02°N 72.57°E
+          </p>
         </div>
       </div>
     </section>

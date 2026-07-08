@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
+import SectionHeading from '@/components/SectionHeading';
 
 export type WritingEntry = {
   title: string;
@@ -29,7 +30,7 @@ const RowContent = ({ entry }: { entry: WritingEntry }) => (
   <>
     {/* Left — date + tags */}
     <div className="flex flex-col gap-3 pt-0.5">
-      <span className="text-xs text-muted-foreground/50">
+      <span className="font-mono text-xs tracking-[0.15em] uppercase text-meta">
         {formatDate(entry.date)}
         {entry.readingTime ? ` · ${entry.readingTime}` : ''}
       </span>
@@ -37,7 +38,7 @@ const RowContent = ({ entry }: { entry: WritingEntry }) => (
         {entry.tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs px-2 py-0.5 rounded bg-secondary border border-border/60 text-muted-foreground/70"
+            className="font-mono text-xs border border-border rounded-full px-2.5 py-0.5 text-muted"
           >
             {tag}
           </span>
@@ -48,7 +49,7 @@ const RowContent = ({ entry }: { entry: WritingEntry }) => (
     {/* Right — title + preview + arrow */}
     <div className="flex items-start justify-between gap-6">
       <div className="flex-1 min-w-0">
-        <h3 className="text-[15px] font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-200 mb-2 leading-snug">
+        <h3 className="font-serif text-xl md:text-2xl text-foreground/90 group-hover:text-foreground transition-colors duration-200 mb-2 leading-snug">
           {entry.title}
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
@@ -89,17 +90,23 @@ const WritingList = ({ entries }: { entries: WritingEntry[] }) => {
   const { ref, revealStyle } = useInView();
 
   return (
-    <section id="blogs" className="py-24 border-t border-border">
+    <section id="blogs" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <div ref={ref} style={revealStyle} className="flex items-center gap-6 mb-12">
-          <h2 className="text-xl font-semibold whitespace-nowrap">Writing</h2>
-          <div className="h-px flex-1 bg-border" />
-          <Link
-            href="/blog"
-            className="text-xs text-muted-foreground/50 hover:text-foreground transition-colors whitespace-nowrap"
-          >
-            All posts →
-          </Link>
+        <div ref={ref} style={revealStyle} className="mb-12">
+          <SectionHeading
+            number="05"
+            label="Writing"
+            tagline="Notes from Production"
+            title="Writing"
+            action={
+              <Link
+                href="/blog"
+                className="font-mono text-xs tracking-[0.15em] uppercase text-muted-foreground/60 hover:text-foreground transition-colors whitespace-nowrap"
+              >
+                All posts →
+              </Link>
+            }
+          />
         </div>
 
         <div>
