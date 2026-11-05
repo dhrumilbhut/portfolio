@@ -8,37 +8,30 @@ type Role = {
   company: string;
   period: string;
   location: string;
+  description?: string;
   bullets: string[];
-  tech: string[];
+  tech?: string[];
   current?: boolean;
 };
 
 const roles: Role[] = [
   {
-    title: 'Software Engineer',
-    company: 'Zuru Tech India Pvt. Ltd.',
-    period: 'Aug 2023 — Present',
-    location: 'Ahmedabad, India',
+    title: 'Backend Engineer',
+    company: 'ZURU',
+    period: '08/2023 to Present',
+    location: 'Ahmedabad',
     current: true,
+    description:
+      "In-house product engineering for ZURU's consumer brands (X-Shot, Bunch O Balloons, Robo Alive).",
     bullets: [
-      'Architected the core backend for Netra, an Influencer Management Platform, with a centralized Express.js middleware layer handling JWT/session auth, request validation, and dual-layer rate limiting that independently throttles inbound API traffic and outbound YouTube quota without cross-interference.',
-      'Implemented BullMQ + Redis distributed job scheduling with deduplication, retry logic, and concurrency control; built RabbitMQ consumer pipelines and cron-based schedulers for automated media publishing across Instagram, TikTok, and YouTube, fully decoupling heavy operations from the request lifecycle.',
-      'Built a full asset library with watermark-based vendor distribution: background jobs produce processed copies with 6 placement options, proportional scaling, and edge-anchored positioning across image and video, keeping internal originals unchanged.',
-      'Developed an AWS Lambda API for automated media preview generation, cutting compute costs ~20% and improving media load times ~30%; integrated YouTube Analytics API for real-time influencer performance tracking with automated data syncing across multiple channels.',
-      'Optimized DB schema and query patterns across a multi-database production setup (PostgreSQL + SQLite), improving overall application performance by 20% and reducing query execution time by 40%.',
+      "Own the backend for ZURU's in-house brand platforms. Built the brand asset library from scratch for 20+ brands and 20K+ media assets. Rewrote multi-filter retrieval with CTEs, cutting query time by 40% and API response time by 20%. Lambda-based preview generation cut compute costs by ~20% and load times by ~30%.",
+      'Built the async media publishing pipeline across Instagram, TikTok and YouTube, using BullMQ and Redis for job scheduling with deduplication, retries and concurrency limits, and RabbitMQ consumers to run publishing outside the request lifecycle. Added a webhook ingestion service that fans out real-time Instagram and TikTok events to internal consumers without coupling to the external API contract.',
+      "Designed two independent rate-limiting middleware chains, one for inbound traffic and one for outbound platform quotas, with no cross-interference. Respects Meta's 1,000 req/hr cap and YouTube's 10K quota/day; the YouTube analytics sync covers 1,000+ channels without quota violations.",
+      'Built Creator Discovery so researchers can shortlist Instagram and TikTok creators and add up to 50 to a campaign in one transaction, matching existing records, creating new ones, and caching expiring marketplace photos in S3.',
+      'Built a 10-level campaign folder hierarchy using recursive CTEs for depth and breadcrumbs, with cycle prevention and per-brand Postgres advisory locks so concurrent moves cannot corrupt the tree.',
+      'Implemented Azure AD SSO with domain restriction and least-privilege self-provisioning, a session dashboard with remote force-logout, immediate revocation on disable or delete, and an RBAC matrix of about 130 permissions across 7 roles.',
+      'Designed the schema and dual state machine for a multi-party licensor approval workflow: separate status lifecycles for projects and individual assets, hybrid core columns and JSONB for dynamic per-category fields, bulk asset review actions and role-based write access enforced at the brand level.',
     ],
-    tech: ['Node.js', 'Express.js', 'PostgreSQL', 'SQLite', 'AWS Lambda', 'Redis', 'RabbitMQ', 'BullMQ', 'JWT'],
-  },
-  {
-    title: 'Full Stack Developer Intern',
-    company: 'iNeuron.ai',
-    period: 'Mar 2023 — May 2023',
-    location: 'Remote',
-    bullets: [
-      'Built a hotel management system with a React.js frontend and a Node.js/Express.js REST backend.',
-      'Integrated MongoDB for efficient data handling and CRUD operations in a production-ready deployment.',
-    ],
-    tech: ['Node.js', 'Express.js', 'React.js', 'MongoDB'],
   },
 ];
 
@@ -67,8 +60,11 @@ const TimelineItem = ({ role, index }: { role: Role; index: number }) => {
         <p className="font-mono text-xs tracking-[0.2em] uppercase text-accent-light mt-1.5 mb-5">
           {role.title}
         </p>
+        {role.description && (
+          <p className="text-[15px] text-muted leading-relaxed mb-5">{role.description}</p>
+        )}
 
-        <ul className="space-y-2.5 mb-6">
+        <ul className={`space-y-2.5 ${role.tech?.length ? 'mb-6' : ''}`}>
           {role.bullets.map((bullet) => (
             <li key={bullet} className="flex gap-3 text-sm text-muted leading-relaxed">
               <span className="mt-[9px] w-1 h-1 rounded-full bg-accent flex-shrink-0" />
@@ -77,16 +73,18 @@ const TimelineItem = ({ role, index }: { role: Role; index: number }) => {
           ))}
         </ul>
 
-        <div className="flex flex-wrap gap-2">
-          {role.tech.map((t) => (
-            <span
-              key={t}
-              className="font-mono text-xs border border-border rounded-full px-3 py-1 text-muted"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+        {role.tech && role.tech.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {role.tech.map((t) => (
+              <span
+                key={t}
+                className="font-mono text-xs border border-border rounded-full px-3 py-1 text-muted"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

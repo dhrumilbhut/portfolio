@@ -6,7 +6,7 @@ import Projects from "@/components/Projects";
 import Writing from "@/components/Writing";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
-import { site } from "@/lib/site";
+import { site, yearsOfExperience } from "@/lib/site";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -19,15 +19,17 @@ const personJsonLd = {
 };
 
 export default function Home() {
+  const years = yearsOfExperience();
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <Hero />
+      <Hero serverYears={years} />
       <Marquee />
-      <About />
+      <About serverYears={years} />
       <Experience />
       <Projects />
       <Writing />

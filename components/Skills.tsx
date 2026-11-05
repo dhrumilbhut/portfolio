@@ -11,34 +11,29 @@ type SkillCategory = {
 
 const categories: SkillCategory[] = [
   {
-    title: 'Backend & API',
-    skills: ['Node.js', 'Express.js', 'REST APIs', 'AWS Lambda', 'JWT', 'Session-based Auth', 'Middleware Design'],
-    span: 'md:col-span-3',
-  },
-  {
     title: 'Languages',
-    skills: ['Python', 'JavaScript', 'SQL'],
+    skills: ['Python', 'JavaScript', 'TypeScript', 'SQL'],
     span: 'md:col-span-1',
   },
   {
-    title: 'Queues & Jobs',
-    skills: ['RabbitMQ', 'BullMQ', 'Redis', 'Dead-letter Queues', 'Cron Scheduling'],
+    title: 'Backend & Infra',
+    skills: ['Node.js', 'Express.js', 'FastAPI', 'AWS (Lambda, S3)', 'Docker', 'Docker Compose', 'CI/CD', 'Azure AD SSO'],
+    span: 'md:col-span-3',
+  },
+  {
+    title: 'Data & Queues',
+    skills: ['PostgreSQL', 'Redis', 'RabbitMQ', 'BullMQ', 'Celery', 'Schema Design'],
     span: 'md:col-span-2',
   },
   {
-    title: 'Databases & Caching',
-    skills: ['PostgreSQL', 'SQLite', 'pgvector', 'Redis'],
+    title: 'AI Infrastructure',
+    skills: ['RAG Pipelines', 'pgvector', 'Embeddings', 'LLM Evaluation', 'OpenAI API'],
     span: 'md:col-span-2',
   },
   {
-    title: 'Infrastructure & DevOps',
-    skills: ['Docker', 'Docker Compose', 'GitHub Actions', 'AWS', 'Railway', 'Apache Airflow', 'Git'],
-    span: 'md:col-span-2',
-  },
-  {
-    title: 'Applied AI & LLM',
-    skills: ['RAG', 'Vector Search', 'LangChain', 'OpenAI API', 'Groq API', 'CrewAI', 'MLflow', 'Eval Pipelines', 'Hugging Face'],
-    span: 'md:col-span-2',
+    title: 'Testing',
+    skills: ['Jest', 'Unit Testing', 'Integration Testing', 'Statistical Testing'],
+    span: 'md:col-span-4',
   },
 ];
 

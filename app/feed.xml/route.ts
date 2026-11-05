@@ -1,15 +1,17 @@
 import { Feed } from "feed";
 import { getAllPosts } from "@/lib/blog";
-import { site } from "@/lib/site";
+import { site, siteDescription } from "@/lib/site";
 
 export const dynamic = "force-static";
+// Rebuild daily so the channel description keeps the years figure current.
+export const revalidate = 86400;
 
 export async function GET() {
   const posts = getAllPosts();
 
   const feed = new Feed({
     title: site.name,
-    description: site.description,
+    description: siteDescription(),
     id: site.url,
     link: site.url,
     language: "en",

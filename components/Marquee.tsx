@@ -1,14 +1,16 @@
 const skills = [
   'Node.js',
+  'TypeScript',
+  'Python',
   'PostgreSQL',
-  'Distributed Queues',
-  'RAG Pipelines',
   'Redis',
   'RabbitMQ',
+  'BullMQ',
   'FastAPI',
+  'RAG Pipelines',
   'pgvector',
-  'AWS Lambda',
-  'MLOps',
+  'LLM Evaluation',
+  'Docker',
 ];
 
 // Editorial marquee — large serif uppercase items with ✦ separators. The list

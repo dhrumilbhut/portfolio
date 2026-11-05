@@ -1,11 +1,12 @@
 "use client";
 
 import { useInView } from '@/hooks/useInView';
+import { site } from '@/lib/site';
 
 const socials = [
-  { label: 'GitHub', href: 'https://github.com/dhrumilbhut' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/dhrumilbhut' },
-  { label: 'Email', href: 'mailto:dhrumilbhut@gmail.com' },
+  { label: 'GitHub', href: site.github },
+  { label: 'LinkedIn', href: site.linkedin },
+  { label: 'Email', href: `mailto:${site.email}` },
 ];
 
 const Contact = () => {
@@ -30,10 +31,10 @@ const Contact = () => {
         </p>
 
         <a
-          href="mailto:dhrumilbhut@gmail.com"
+          href={`mailto:${site.email}`}
           className="btn-accent inline-flex items-center gap-3 font-mono text-sm tracking-[0.15em] uppercase px-8 py-4 rounded-full"
         >
-          dhrumilbhut@gmail.com
+          {site.email}
           <span aria-hidden="true">→</span>
         </a>
 

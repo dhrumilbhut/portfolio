@@ -1,6 +1,10 @@
 "use client";
 
-const Hero = () => {
+import { useYearsOfExperience } from '@/hooks/useYearsOfExperience';
+import { formatYears } from '@/lib/site';
+
+const Hero = ({ serverYears }: { serverYears: number }) => {
+  const years = useYearsOfExperience(serverYears);
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -22,7 +26,7 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto px-6 w-full py-24">
         <p className="flex items-center gap-2.5 font-mono text-xs tracking-[0.25em] uppercase text-muted mb-8 animate-fade-up">
           <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
-          Software Engineer — Ahmedabad, IN
+          Backend &amp; AI Systems Engineer · Ahmedabad, IN
         </p>
 
         <p className="font-serif italic text-2xl md:text-3xl text-muted mb-2 animate-fade-up">
@@ -35,10 +39,9 @@ const Hero = () => {
         </h1>
 
         <p className="max-w-xl text-lg text-muted leading-relaxed mb-10 animate-fade-up-delay-2">
-          2.5+ years crafting <strong className="text-foreground font-semibold">scalable backend systems</strong> —
-          distributed job pipelines, infra-heavy APIs, and the{' '}
-          <strong className="text-foreground font-semibold">applied-AI layer</strong> on top: RAG pipelines,
-          multi-agent workflows, and MLOps.
+          Backend and AI Engineer with {formatYears(years)} years in production. Builds{' '}
+          <strong className="text-foreground font-semibold">distributed systems and LLM infrastructure</strong>{' '}
+          that stay correct when things fail.
         </p>
 
         <div className="flex flex-wrap items-center gap-6 animate-fade-up-delay-3">
